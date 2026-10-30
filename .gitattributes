@@ -1,0 +1,4 @@
+# Linux scripts and configs must keep LF endings, or the "#!" line breaks
+* text=auto eol=lf
+bin/* text eol=lf
+*.png binary

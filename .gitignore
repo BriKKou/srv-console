@@ -1,0 +1,17 @@
+# Your own settings and data never belong in the repository
+/config/config.php
+/config/*.local.php
+/data/
+.env
+
+*.log
+*.tmp
+*.bak*
+*.htpasswd
+
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+node_modules/
+vendor/
