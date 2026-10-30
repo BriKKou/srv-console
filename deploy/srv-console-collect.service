@@ -1,0 +1,9 @@
+[Unit]
+Description=srv-console: collect Docker, disk, SMART and history data
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/srv-console/bin/srv-console-collect
+Nice=10
+IOSchedulingClass=idle

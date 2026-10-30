@@ -1,0 +1,35 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Collects Docker, disks, SMART, certificates, updates, backup status and one
+ * history point, then writes them to the data directory. Run as root, once a
+ * minute (deploy/srv-console-collect.timer).
+ */
+declare(strict_types=1);
+
+require dirname(__DIR__) . '/src/bootstrap.php';
+
+use SrvConsole\Collector;
+use SrvConsole\Config;
+use SrvConsole\Util;
+
+if (PHP_SAPI !== 'cli') {
+	exit(1);
+}
+
+const HISTORY_POINTS = 1440;
+
+$config = Config::load();
+$dir = rtrim((string) $config->get('data_dir'), '/');
+$collector = new Collector($config, Util::readJson($dir . '/status.json'));
+
+$ok = Util::writeJson($dir . '/status.json', $collector->collect());
+
+$history = Util::readJson($dir . '/history.json') ?? [];
+$history[] = $collector->sample();
+$ok = Util::writeJson($dir . '/history.json', array_slice($history, -HISTORY_POINTS)) && $ok;
+
+if (!$ok) {
+	fwrite(STDERR, "srv-console: could not write to {$dir}\n");
+}
+exit($ok ? 0 : 1);

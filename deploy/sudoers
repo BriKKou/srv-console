@@ -1,0 +1,6 @@
+# /etc/sudoers.d/srv-console  (mode 0440, check it with: visudo -cf /etc/sudoers.d/srv-console)
+#
+# Only needed if you turn the restart/reboot buttons on. The web user may run this one
+# script as root, nothing else. Replace www-data with the user your web server runs as
+# (nginx, apache, www-data...).
+www-data ALL=(root) NOPASSWD: /opt/srv-console/bin/srv-console-action

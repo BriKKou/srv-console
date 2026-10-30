@@ -1,0 +1,60 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Restarts a container or a systemd unit, or reboots the machine. Called by the
+ * web user through sudo; reads only /etc/srv-console/config.php and rechecks
+ * every request against what exists right now.
+ *
+ * Usage: srv-console-action restart <container|unit>
+ *        srv-console-action reboot now
+ */
+declare(strict_types=1);
+
+require dirname(__DIR__) . '/src/bootstrap.php';
+
+use SrvConsole\Actions;
+use SrvConsole\Config;
+use SrvConsole\Util;
+
+if (PHP_SAPI !== 'cli') {
+	exit(1);
+}
+
+$verb = (string) ($argv[1] ?? '');
+$target = (string) ($argv[2] ?? '');
+$caller = getenv('SUDO_USER') ?: 'root';
+
+openlog('srv-console-action', LOG_PID, LOG_AUTH);
+$fail = static function (string $message) use ($verb, $target, $caller): never {
+	syslog(LOG_WARNING, sprintf('refused %s %s (by %s): %s', $verb, $target, $caller, $message));
+	fwrite(STDERR, $message . "\n");
+	exit(1);
+};
+
+// Explicit path: environment variables are ignored on purpose here
+$config = Config::load(Config::SYSTEM_PATH);
+
+$known = [];
+if ($verb === 'restart') {
+	[$out, , $code] = Util::run(['docker', 'ps', '-a', '--format', '{{.Names}}'], 15);
+	if ($code === 0) {
+		$known = array_values(array_filter(array_map('trim', explode("\n", $out))));
+	}
+}
+
+$decision = Actions::resolve($config, $verb, $target, $known);
+if (isset($decision['error'])) {
+	$fail($decision['error']);
+}
+
+$cmd = match ($decision['kind']) {
+	'container' => ['docker', 'restart', $target],
+	'unit'      => ['systemctl', '--no-block', 'restart', $target],
+	'reboot'    => ['systemctl', '--no-block', 'reboot'],
+};
+syslog(LOG_NOTICE, sprintf('%s %s (by %s)', $verb, $target, $caller));
+[$out, $err, $code] = Util::run($cmd, 60);
+if ($code !== 0) {
+	$fail(trim($err !== '' ? $err : $out));
+}
+echo $decision['kind'] === 'reboot' ? "rebooting\n" : "{$target} restarted\n";
