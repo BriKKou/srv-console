@@ -799,6 +799,34 @@ a {
   font-size: .78rem;
 }
 
+/* Défilement horizontal : première colonne figée, image masquée pour la garder étroite */
+.sc-table-wrap.is-scroll .sc-table th:first-child,
+.sc-table-wrap.is-scroll .sc-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--panel);
+  box-shadow: inset -1px 0 var(--line);
+}
+
+.sc-table-wrap.is-scroll .sc-table tbody tr:hover td:first-child {
+  background: var(--control);
+}
+
+.sc-table-wrap.is-scroll .sc-table td:first-child small {
+  display: none;
+}
+
+/* Colonne rendue deux fois : à sa place en grand écran, reléguée en fin de ligne quand le tableau défile */
+.sc-table .sc-col-scroll,
+.sc-table-wrap.is-scroll .sc-table .sc-col-wide {
+  display: none;
+}
+
+.sc-table-wrap.is-scroll .sc-table .sc-col-scroll {
+  display: table-cell;
+}
+
 /* Stockage, réseau */
 /* Une colonne par tuile visible : une tuile masquée ne laisse pas de trou */
 .sc-grid2 {

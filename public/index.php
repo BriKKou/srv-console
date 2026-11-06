@@ -189,8 +189,8 @@ header("Content-Security-Policy: default-src 'self'; img-src 'self' data:; scrip
 			<div class="sc-table-wrap">
 				<table class="sc-table">
 					<thead><tr>
-						<th><?= $t('containers.name') ?></th><th><?= $t('containers.version') ?></th><th><?= $t('containers.state') ?></th>
-						<th><?= $t('containers.uptime') ?></th><th class="num">CPU</th><th class="num">RAM</th><th class="num"><span class="sc-sr"><?= $t('containers.actions') ?></span></th>
+						<th><?= $t('containers.name') ?></th><th class="sc-col-wide"><?= $t('containers.version') ?></th><th><?= $t('containers.state') ?></th>
+						<th><?= $t('containers.uptime') ?></th><th class="num">CPU</th><th class="num">RAM</th><th class="sc-col-scroll"><?= $t('containers.version') ?></th><th class="num"><span class="sc-sr"><?= $t('containers.actions') ?></span></th>
 					</tr></thead>
 					<tbody id="containers-body"></tbody>
 				</table>

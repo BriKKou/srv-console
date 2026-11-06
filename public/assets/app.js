@@ -290,15 +290,25 @@
     $('containers-body').replaceChildren(...list.map((c) => {
       const st = containerState(c);
       return h('tr', {},
-        h('td', {}, h('strong', {}, c.name), h('small', {}, c.image)),
-        h('td', { class: 'mono' }, c.version || '—'),
+        h('td', {}, h('strong', { title: c.image }, c.name), h('small', {}, c.image)),
+        h('td', { class: 'mono sc-col-wide' }, c.version || '—'),
         h('td', {}, badge(st.lvl, st.text)),
         h('td', { class: 'mono' }, c.state === 'running' && c.started_at ? fmtDuration(now() - c.started_at) : '—'),
         h('td', { class: 'num mono' }, c.cpu == null ? '—' : `${fmtNumber(c.cpu, 2)}%`),
         h('td', { class: 'num mono' }, fmtBytes(c.mem)),
+        h('td', { class: 'mono sc-col-scroll' }, c.version || '—'),
         h('td', { class: 'num' }, c.restartable && restartButton(c.name, c.name, true)),
       );
     }));
+    fitTables();
+  }
+
+  // Flags tables that overflow; measured without the flag, since it hides the image and narrows the table
+  function fitTables() {
+    document.querySelectorAll('.sc-table-wrap').forEach((wrap) => {
+      wrap.classList.remove('is-scroll');
+      wrap.classList.toggle('is-scroll', wrap.scrollWidth > wrap.clientWidth);
+    });
   }
 
   function renderStorage() {
@@ -522,6 +532,7 @@
     await action('reboot', 'now');
   });
   window.addEventListener('scroll', updateNav, { passive: true });
+  window.addEventListener('resize', fitTables, { passive: true });
 
   initSwitches();
   loadHistory().then(refresh);
