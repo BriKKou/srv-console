@@ -409,6 +409,7 @@
       [t('sys.cpu'), `${cpu.model} · ${t('sys.cores', { n: cpu.cores })}`],
       [t('sys.freq'), cpu.mhz ? `${cpu.mhz} MHz` : null],
       [t('sys.boot'), dateTime(sys.boot_time)],
+      [t('sys.uptime'), t(sys.uptime >= 172800 ? 'sys.uptime_days' : 'sys.uptime_day', { n: Math.floor(sys.uptime / 86400) })],
       [t('sys.sessions'), sys.sessions],
       [t('sys.time'), clock(data.time)],
     ];
