@@ -37,7 +37,6 @@
   "kpi.temp_err": "Critique",
   "kpi.services_all": "Tous en ligne",
   "kpi.services_down": "{n} hors ligne",
-  "kpi.services_sub": "Vérifiés à chaque actualisation",
   "kpi.backup_ok": "OK",
   "kpi.backup_failed": "Échec",
   "kpi.backup_old": "Trop ancien",

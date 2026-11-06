@@ -559,9 +559,17 @@ a {
 }
 
 .sc-kpi__sub {
-  min-height: 32px;
   color: var(--fg-dim);
   font-size: .78rem;
+}
+
+.sc-kpi__sub:empty {
+  display: none;
+}
+
+/* Courbes calées en bas : alignées même quand un badge passe à la ligne */
+.sc-kpi .sc-spark {
+  margin-top: auto;
 }
 
 .sc-spark {

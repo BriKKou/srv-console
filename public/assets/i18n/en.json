@@ -37,7 +37,6 @@
   "kpi.temp_err": "Critical",
   "kpi.services_all": "All online",
   "kpi.services_down": "{n} offline",
-  "kpi.services_sub": "Checked on every refresh",
   "kpi.backup_ok": "OK",
   "kpi.backup_failed": "Failed",
   "kpi.backup_old": "Too old",

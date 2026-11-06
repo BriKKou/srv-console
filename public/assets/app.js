@@ -229,7 +229,7 @@
       const down = svcs.filter((s) => !s.up);
       setKpi('kpi-services', `${svcs.length - down.length}/${svcs.length}`, down.length ? 'err' : 'ok',
         down.length ? t('kpi.services_down', { n: down.length }) : t('kpi.services_all'),
-        down.length ? down.map((s) => s.name).join(', ') : t('kpi.services_sub'));
+        down.map((s) => s.name).join(', '));
     }
 
     const b = data.backup;
