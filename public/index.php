@@ -71,12 +71,12 @@ header("Content-Security-Policy: default-src 'self'; img-src 'self' data:; scrip
 		</a>
 		<nav class="sc-nav" aria-label="<?= $t('nav.label') ?>">
 			<a href="#top" aria-current="page"><svg class="ic"><use href="#i-grid"/></svg><?= $t('nav.overview') ?></a>
-			<a href="#services" data-section="services"><svg class="ic"><use href="#i-activity"/></svg><?= $t('nav.services') ?></a>
-			<a href="#containers" data-section="containers"><svg class="ic"><use href="#i-box"/></svg><?= $t('nav.containers') ?></a>
-			<a href="#storage" data-section="storage"><svg class="ic"><use href="#i-disk"/></svg><?= $t('nav.storage') ?></a>
-			<a href="#network" data-section="network"><svg class="ic"><use href="#i-net"/></svg><?= $t('nav.network') ?></a>
-			<a href="#journal" data-section="journal"><svg class="ic"><use href="#i-list"/></svg><?= $t('nav.journal') ?></a>
 			<a href="#system" data-section="system"><svg class="ic"><use href="#i-server"/></svg><?= $t('nav.system') ?></a>
+			<a href="#storage" data-section="storage"><svg class="ic"><use href="#i-disk"/></svg><?= $t('nav.storage') ?></a>
+			<a href="#services" data-section="services"><svg class="ic"><use href="#i-activity"/></svg><?= $t('nav.services') ?></a>
+			<a href="#journal" data-section="journal"><svg class="ic"><use href="#i-list"/></svg><?= $t('nav.journal') ?></a>
+			<a href="#network" data-section="network"><svg class="ic"><use href="#i-net"/></svg><?= $t('nav.network') ?></a>
+			<a href="#containers" data-section="containers"><svg class="ic"><use href="#i-box"/></svg><?= $t('nav.containers') ?></a>
 		</nav>
 		<div class="sc-usage">
 			<div class="sc-usage__head"><span><?= $t('side.disk') ?></span><span class="mono" id="side-disk">—</span></div>
@@ -141,6 +141,24 @@ header("Content-Security-Policy: default-src 'self'; img-src 'self' data:; scrip
 		</section>
 
 		<section class="sc-split" id="split">
+			<div class="sc-stack">
+				<article class="sc-card" id="system">
+					<div class="sc-card__head"><h2><?= $t('system.title') ?></h2></div>
+					<dl class="sc-kv" id="sys-kv"></dl>
+				</article>
+				<article class="sc-card" id="storage" hidden>
+					<div class="sc-card__head"><h2><?= $t('storage.title') ?></h2></div>
+					<div id="disks"></div>
+					<div class="sc-smart" id="smart"></div>
+				</article>
+			</div>
+			<article class="sc-card" id="services" hidden>
+				<div class="sc-card__head"><h2><?= $t('services.title') ?></h2><span class="sc-caption" id="services-count"></span></div>
+				<ul class="sc-svc" id="services-list"></ul>
+			</article>
+		</section>
+
+		<section class="sc-split">
 			<article class="sc-card sc-chart-card">
 				<div class="sc-card__head">
 					<h2><?= $t('chart.title') ?></h2>
@@ -152,10 +170,18 @@ header("Content-Security-Policy: default-src 'self'; img-src 'self' data:; scrip
 				</div>
 				<div class="sc-chart__x mono" id="chart-x"></div>
 			</article>
-			<article class="sc-card" id="services" hidden>
-				<div class="sc-card__head"><h2><?= $t('services.title') ?></h2><span class="sc-caption" id="services-count"></span></div>
-				<ul class="sc-svc" id="services-list"></ul>
-			</article>
+			<div class="sc-stack">
+				<article class="sc-card" id="journal">
+					<div class="sc-card__head"><h2><?= $t('journal.title') ?></h2><span class="sc-caption"><?= $t('journal.sub') ?></span></div>
+					<div class="sc-log mono" id="log"></div>
+				</article>
+				<article class="sc-card" id="network">
+					<div class="sc-card__head"><h2><?= $t('network.title') ?></h2><span class="sc-caption mono" id="net-caption"></span></div>
+					<div id="net-list"></div>
+					<svg class="sc-spark sc-spark--lg" id="net-spark" viewBox="0 0 240 48" preserveAspectRatio="none"></svg>
+					<p class="sc-caption"><?= $t('network.history') ?></p>
+				</article>
+			</div>
 		</section>
 
 		<section class="sc-card" id="containers" hidden>
@@ -172,29 +198,6 @@ header("Content-Security-Policy: default-src 'self'; img-src 'self' data:; scrip
 		</section>
 
 		<section class="sc-grid2">
-			<article class="sc-card" id="storage" hidden>
-				<div class="sc-card__head"><h2><?= $t('storage.title') ?></h2></div>
-				<div id="disks"></div>
-				<div class="sc-smart" id="smart"></div>
-			</article>
-			<article class="sc-card" id="network">
-				<div class="sc-card__head"><h2><?= $t('network.title') ?></h2><span class="sc-caption mono" id="net-caption"></span></div>
-				<div id="net-list"></div>
-				<svg class="sc-spark sc-spark--lg" id="net-spark" viewBox="0 0 240 48" preserveAspectRatio="none"></svg>
-				<p class="sc-caption"><?= $t('network.history') ?></p>
-			</article>
-		</section>
-
-		<section class="sc-card" id="journal">
-			<div class="sc-card__head"><h2><?= $t('journal.title') ?></h2><span class="sc-caption"><?= $t('journal.sub') ?></span></div>
-			<div class="sc-log mono" id="log"></div>
-		</section>
-
-		<section class="sc-grid3" id="system">
-			<article class="sc-card">
-				<div class="sc-card__head"><h2><?= $t('system.title') ?></h2></div>
-				<dl class="sc-kv" id="sys-kv"></dl>
-			</article>
 			<article class="sc-card" id="certs-card" hidden>
 				<div class="sc-card__head"><h2><?= $t('certs.title') ?></h2></div>
 				<ul class="sc-list" id="certs"></ul>
